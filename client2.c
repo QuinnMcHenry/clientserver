@@ -41,22 +41,10 @@ int main(int argc, char const *argv[])
         return -1;
     }
 
-    // send this client's PID to the server so it knows which client we are
-    pid_t pid = getpid();
-    send(sock, &pid, sizeof(pid_t), 0);
-    printf("Client 2 connected with PID: %d\n", pid);
-
     // wait to hear if the server has both clients connected
     memset(buffer, 0, 1024); // clears the buffer before each read
     valread = read(sock, buffer, 1024);
     printf("Server: %s\n", buffer);
-
-    // if server says only one client is up, exit
-    if (strncmp(buffer, "only one client is up", 21) == 0)
-    {
-        close(sock);
-        return -1;
-    }
 
     // keep sending and receiving until we type BYE
     while (1)
@@ -73,7 +61,7 @@ int main(int argc, char const *argv[])
         send(sock, message, strlen(message), 0);
 
         // if we said BYE, stop
-        if (strcmp(message, "BYE") == 0)
+        if (strncmp(message, "BYE", 3) == 0)
         {
             printf("Disconnecting...\n");
             break;
@@ -85,7 +73,7 @@ int main(int argc, char const *argv[])
         printf("Client 1 says: %s\n", buffer);
 
         // if client 1 said BYE, stop
-        if (strcmp(buffer, "BYE") == 0)
+        if (strncmp(buffer, "BYE", 3) == 0)
         {
             printf("Client 1 has disconnected. Exiting...\n");
             break;

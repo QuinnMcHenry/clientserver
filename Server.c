@@ -83,6 +83,7 @@ int main(int argc, char const *argv[])
         
         //Break loop when client1 says BYE 
         if(strncmp(buffer, "BYE", 3) == 0) {
+	    send(client2, buffer, strlen(buffer), 0);
             break;
         }
 
@@ -96,6 +97,7 @@ int main(int argc, char const *argv[])
         
         //Break loop when client2 says BYE
         if (strncmp(buffer, "BYE", 3) == 0) {
+	    send(client1, buffer, strlen(buffer), 0);
             break;
         }
 

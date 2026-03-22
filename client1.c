@@ -45,7 +45,7 @@ int main(int argc, char const *argv[])
     while (1)
     {
         // client 1 always sends first
-        printf("Enter message: ");
+        printf("Client 1 - Enter message: ");
         fgets(message, 1024, stdin);
         message[strcspn(message, "\n")] = 0;
 
@@ -62,6 +62,7 @@ int main(int argc, char const *argv[])
         valread = read(sock, buffer, 1024);
         printf("Client 2 says: %s\n", buffer);
 
+	// if cli 2 said BYE then exit
         if (strncmp(buffer, "BYE", 3) == 0)
         {
             printf("Client 2 has disconnected. Exiting...\n");
